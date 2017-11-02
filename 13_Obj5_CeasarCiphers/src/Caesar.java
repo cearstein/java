@@ -1,16 +1,12 @@
 
 public class Caesar {
 	char[] alphabet;
-	char[] fixAlphabet;
-	char[] fixAlphabet2;
 	char[] capitalAlphabet;
 	
 	Caesar(String str) {
-		System.out.println("Caesar object created");
+		// System.out.println("Caesar object created");
 		this.alphabet = str.toCharArray();
-		this.fixAlphabet = str.toCharArray();
 		this.capitalAlphabet = str.toCharArray();
-		this.fixAlphabet2 = str.toCharArray();
 		
 		for(int i=0; i<this.capitalAlphabet.length;i++) {
 			if(Character.isLetter(capitalAlphabet[i]) && Character.isLowerCase(capitalAlphabet[i])){
@@ -25,9 +21,8 @@ public class Caesar {
 	
 	void setAlpha(String str) {
 		this.alphabet = str.toCharArray();
-		this.fixAlphabet = str.toCharArray();
 		this.capitalAlphabet = str.toCharArray();
-		this.fixAlphabet2 = str.toCharArray();
+
 		
 		for(int i=0; i<this.capitalAlphabet.length;i++) {
 			if(Character.isLetter(capitalAlphabet[i]) && Character.isLowerCase(capitalAlphabet[i])){
@@ -41,7 +36,8 @@ public class Caesar {
 	}
 	
 	String encode(String str, int shift) {
-		char[] tempArray = this.alphabet;
+		char[] tempArray = new char[1000];
+		this.strcpy(this.alphabet, tempArray);
 
 		int slide = 0;
 		boolean bool = true;
@@ -50,13 +46,11 @@ public class Caesar {
 		for(int i=0;i<this.alphabet.length;i++){
 			slide = i+shift;
 			if((slide)>this.alphabet.length-1) {
-				/*System.out.println("debug");*/
-				this.alphabet = this.fixAlphabet;
+				
 				
 				int x = i;
 				int y = 0;
 				do {
-					/*System.out.println("Y: " + y);*/
 					tempArray[x] = this.alphabet[y];
 					x++;
 					y++;
@@ -65,13 +59,9 @@ public class Caesar {
 				break;
 			}
 			if(bool) {
-			/*System.out.println(i);*/
+	
 			tempArray[i] = this.alphabet[slide];
 			
-			/*for(char charac:tempArray) {
-				System.out.println(charac);
-			}
-			System.out.println("");*/
 			} else {break;}
 
 		}
@@ -82,6 +72,7 @@ public class Caesar {
 		}*/
 		char[] capitalTempArray = new char[10000]; 
 		this.strcpy(tempArray, capitalTempArray);
+		
 		
 		for(int i=0; i<capitalTempArray.length;i++) {
 			if(Character.isLetter(capitalTempArray[i]) && Character.isLowerCase(capitalTempArray[i])){
@@ -119,8 +110,85 @@ public class Caesar {
 				convertedString = convertedString + capitalTempArray[spot];
 			} else {convertedString = convertedString + tempArray[spot];}
 			
-		}
+		}	
+		
+		
+		
+		return(convertedString);
+	}
+	
+	String decode(String str, int key) {
+		char[] decodeArray = new char[1000];
+		this.strcpy(this.alphabet, decodeArray);
+		int slide;
 
+		for(int i=0;i<this.alphabet.length;i++){
+			
+			int x = i-key;				
+			decodeArray[i]=this.alphabet[this.alphabet.length-key];
+
+		
+			if(x >= 0) {
+				int y = i;
+				int r=0;
+				do {
+					// System.out.println("Y: " + y);
+					// System.out.println("R: " + r);
+					// System.out.println(this.alphabet[r]);
+					decodeArray[y] = this.alphabet[r];
+					y++;
+					r++;
+				}while(y<=this.alphabet.length-key);
+				break;
+			}		
+			
+
+		}
+		
+		
+		char[] capitalDecodeArray = new char[10000]; 
+		this.strcpy(decodeArray, capitalDecodeArray);
+		
+		
+		for(int i=0; i<capitalDecodeArray.length;i++) {
+			if(Character.isLetter(capitalDecodeArray[i]) && Character.isLowerCase(capitalDecodeArray[i])){
+				capitalDecodeArray[i] = Character.toUpperCase(capitalDecodeArray[i]);
+			}
+		}
+		
+		char[] word = str.toCharArray();
+		String convertedString = "";
+		int spot = -1;
+		boolean isCapital = false;
+		boolean isSpace = false;
+		
+		for(int r=0;r<word.length;r++) {
+			
+		
+		
+			for(int a=0;a<this.alphabet.length;a++) {
+				if(word[r] == this.alphabet[a]) {
+					spot = a;
+					isCapital = false;
+					isSpace = false;
+				} else if(word[r] == this.capitalAlphabet[a]) {
+					spot = a;
+					isCapital = true;
+					isSpace = false;
+				} else if(word[r] == ' ') {
+					isCapital = false;
+					isSpace = true;
+				}
+			}
+			if(isSpace) {
+				convertedString = convertedString + " ";
+			}else if(isCapital) {
+				convertedString = convertedString + capitalDecodeArray[spot];
+			} else {convertedString = convertedString + decodeArray[spot];}
+			
+		}
+		
+		
 		
 		
 		
