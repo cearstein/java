@@ -15,7 +15,7 @@ public class Guess {
 		
 		
 		System.out.println("Guess a letter: ");
-		this.lastGuess = this.keys.nextLine().charAt(0);
+		this.lastGuess = this.keys.nextLine().toLowerCase().charAt(0);
 		
 		for(int r=0;r>=0;r++) {
 		
