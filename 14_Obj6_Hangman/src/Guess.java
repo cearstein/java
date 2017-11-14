@@ -5,9 +5,12 @@ public class Guess {
 	private char lastGuess;
 	private Scanner keys = new Scanner(System.in);
 	private int numGuesses = 0;
+	String alphabet = "abcdefghijklmnopqrstuvwxyz";
 	
 	Guess() {
-		
+		for(int i=0;i<this.lettersGuessed.length;i++) {
+			this.lettersGuessed[i] = ' ';
+		}
 	}
 	
 	void setGuess() {
@@ -22,7 +25,7 @@ public class Guess {
 			for(int i=0;i<this.lettersGuessed.length;i++) {
 				if(this.lastGuess == this.lettersGuessed[i]) {
 					haveGuessed = true;
-					break;
+					i=1000;
 				} else {
 					haveGuessed = false;
 				}
@@ -36,14 +39,27 @@ public class Guess {
 			}
 		}
 	
-		this.lettersGuessed[numGuesses] = this.lastGuess;
-		this.numGuesses++;
+		this.lettersGuessed[this.alphabet.indexOf(this.lastGuess)] = this.lastGuess;
 		
 		
 	}
 	
 	char getGuess() {
 		return(this.lastGuess);
+	}
+	
+	public void printLetters() {
+		String lettersLeft = "";
+		;		
+		for(int i=0;i<this.lettersGuessed.length;i++) {
+			if(this.lettersGuessed[i] == ' ') {
+				lettersLeft = lettersLeft + " " + this.alphabet.charAt(i);
+			} else {
+				lettersLeft = lettersLeft + " _";
+			}
+		}
+		System.out.println("\n Available letters: \n" + lettersLeft + "\n");
+		
 	}
 	
 }

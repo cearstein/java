@@ -31,6 +31,7 @@ public class HangmanRunner {
 		
 		System.out.println("You are allowed 6 wrong guesses");
 		System.out.println("Your word has " + hangmanWord.getWordLength() + " letters");
+		gues.printLetters();
 		   // System.out.println("DEBUG: WORD == " + hangmanWord.getWord());
 		game1.displayWord();
 		
@@ -38,12 +39,15 @@ public class HangmanRunner {
 			if(!game1.win && !game1.lose) {
 				gues.setGuess();
 				game1.compare(hangmanWord.getWord(), gues.getGuess());
+				gues.printLetters();
 				game1.displayWord();
 			} else if(game1.win) {
 				System.out.println("You Win!");
+				System.out.println("The word was: " + hangmanWord.getWord());
 				i=-10;
 			} else {
 				System.out.println("You lose, how embarrassing");
+				System.out.println("The word was: " + hangmanWord.getWord());
 				i=-10;
 			}
 		}
@@ -51,3 +55,4 @@ public class HangmanRunner {
 	}
 
 }
+
